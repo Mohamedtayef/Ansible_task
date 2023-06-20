@@ -1,0 +1,36 @@
+- name: Installing Apache-MySQL and PHP
+  yum:
+   name:
+    - httpd
+    - mysql-server
+    - php 
+   state: installed
+
+- name: Enabling-Starting-the-service-httpd
+  service:
+    name: httpd
+    enabled: yes
+    state: started
+
+- name: Enabling-Starting-the-service-MySQL
+  service:
+    name: mysqld
+    enabled: yes
+    state: started
+
+- name: Enable-the-firewall-port-for-Apache
+  firewalld:
+    port: "{{ http_port }}"
+    permanent: yes
+    state: enabled
+  notify:
+  - reload firewalld service
+
+- name: Copying the php file
+  copy:
+    src: "{{ php_src }}"
+    dest: "{{ php_dest }}"
+       
+- name: Check that you can connect (GET) to a page and it returns a status 200
+  ansible.builtin.uri:
+    url: 

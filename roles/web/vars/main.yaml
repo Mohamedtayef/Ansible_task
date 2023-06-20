@@ -1,0 +1,3 @@
+php_src: /root/project/roles/web/files/template/
+php_dest: /var/www/html
+http_port: 80/tcp
